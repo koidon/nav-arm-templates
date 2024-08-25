@@ -239,6 +239,13 @@
                 "Description": "Select SQL Server to use. SQLExpress will be running in the Container on the Virtual Machine (part of the Docker Image), SQLDeveloper will be installed on the host, AzureSQL will be deployed in the Resource group. Note that Azure SQL will add additional cost and you will need to specify App and Tenant Bacpac Uris as Azure Storage Shared Access Signature Urls."
             }
         },
+        "SQLServerSku": {
+            "type": "string",
+            "DefaultValue": "S1",
+            "metadata": {
+                "Description": "Select SQLServerSku"
+            }
+        },
         "AppBacpacUri": {
             "type": "string",
             "defaultValue": "",
@@ -512,7 +519,8 @@
         "ScriptCommandToExecute": "powershell.exe -executionpolicy unrestricted -file ",
 		"azureSqlServer": "[concat('sql', replace(tolower(variables('vmName')),'-',''))]",
 		"azureSqlServerDnsName": "[concat(variables('azureSqlServer'),'.database.windows.net')]",
-		"SqlCollation": "Finnish_Swedish_100_CS_AS"
+		"SqlCollation": "Finnish_Swedish_100_CS_AS",
+        "SqlSku": "[parameters('SQLServerSku')]"
     },
     "resources": [
 		{
@@ -560,7 +568,7 @@
 						"collation": "[variables('SqlCollation')]",
 						"edition": "Standard",
 						"maxSizeBytes": "1073741824",
-						"requestedServiceObjectiveName": "S0"
+						"requestedServiceObjectiveName": "[variables('SqlSku')]"
 					},
 					"resources": [
 						{
@@ -601,7 +609,7 @@
 						"collation": "[variables('SqlCollation')]",
 						"edition": "Standard",
 						"maxSizeBytes": "1073741824",
-						"requestedServiceObjectiveName": "S0"
+						"requestedServiceObjectiveName": "S1"
 					},
 					"resources": [
 						{
