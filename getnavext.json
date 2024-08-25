@@ -666,6 +666,9 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/publicIPAddresses",
+            "sku": {
+                "name": "Standard"
+            },
             "name": "[variables('publicIPAddressName')]",
             "location": "[resourceGroup().location]",
             "properties": {
