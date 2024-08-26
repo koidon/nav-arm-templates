@@ -567,7 +567,7 @@
 					"properties": {
 						"collation": "[variables('SqlCollation')]",
 						"edition": "Standard",
-						"maxSizeBytes": "35073741824",
+						"maxSizeBytes": "42949672960",
 						"requestedServiceObjectiveName": "[variables('SqlSku')]"
 					},
 					"resources": [
@@ -608,7 +608,7 @@
 					"properties": {
 						"collation": "[variables('SqlCollation')]",
 						"edition": "Standard",
-						"maxSizeBytes": "35073741824",
+						"maxSizeBytes": "42949672960",
 						"requestedServiceObjectiveName": "[variables('SqlSku')]"
 					},
 					"resources": [
