@@ -405,7 +405,7 @@ try {
                      -containerName $containerName `
                      -useSSL `
                      -updateHosts `
-                     -auth $Auth `
+                     -auth  "AccessControlService"`
                      -authenticationEMail $Office365UserName `
                      -credential $credential `
                      -additionalParameters $additionalParameters `
