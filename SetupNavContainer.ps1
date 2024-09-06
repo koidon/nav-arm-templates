@@ -405,7 +405,10 @@ try {
                      -containerName $containerName `
                      -useSSL `
                      -updateHosts `
-                     -auth  $auth`
+                     -auth  "AAD"`
+                     -AadTenant "4b2334da-9d04-41b6-8f28-91a05bd1a85b" `
+                     -AadAppId "77bb43a4-6da6-4d4b-b2f6-610bab11e8f4" `
+                     -AadAppIdUri "https://navsteel1.swedencentral.scandinaviansteel.se/NAV/WebClient" `
                      -authenticationEMail $Office365UserName `
                      -credential $credential `
                      -additionalParameters $additionalParameters `
