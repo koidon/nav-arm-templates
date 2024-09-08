@@ -409,7 +409,6 @@ try {
                      -authenticationEMail $Office365UserName `
                      -credential $credential `
                      -additionalParameters $additionalParameters `
-                     -myScripts @("https://raw.githubusercontent.com/microsoft/nav-docker/master/override/SelfSignedCertificateEx/SetupCertificate.ps1")
     
 } catch {
     AddToStatus -color Red "Container output"
