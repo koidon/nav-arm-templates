@@ -431,42 +431,27 @@ if ("$sqlServerType" -eq "SQLDeveloper") {
     New-NavContainerNavUser -containerName $containerName -Credential $credential -ChangePasswordAtNextLogOn:$false -PermissionSetId SUPER
 }
 
-if ($auth -eq "AAD") {
-    if (([System.Version]$navVersion).Major -lt 15) {
-        throw "AAD authentication no longer supported for this version"
-    } 
-    else {
-        if (([System.Version]$navVersion) -ge ([System.Version]"18.0.0.0")) {
+if ($auth -eq "AAD") {  
             $sourceUrl = "https://github.com/BusinessCentralApps/AzureAdAppSetup/releases/download/18.0.12/AzureAdAppSetup-Apps-18.0.12.0.zip"
-        }
-        elseif (([System.Version]$navVersion) -ge ([System.Version]"17.1.0.0")) {
-            $sourceUrl = "https://github.com/BusinessCentralApps/AzureAdAppSetup/releases/download/17.1.11/AzureAdAppSetup-Apps-17.1.11.0.zip"
-        }
-        elseif (([System.Version]$navVersion) -ge ([System.Version]"15.9.0.0")) {
-            $sourceUrl = "https://github.com/BusinessCentralApps/AzureAdAppSetup/releases/download/15.9.10/AzureAdAppSetup-Apps-15.9.10.0.zip"
-        }
-        else {
-            $sourceUrl = "https://github.com/BusinessCentralApps/AzureAdAppSetup/releases/download/15.0.7/AzureAdAppSetup-Apps-15.0.7.0.zip"
-        }
 
         $appfile = Join-Path $env:TEMP ([System.IO.Path]::GetFileName($sourceUrl))
-        Download-File -sourceUrl $sourceUrl -destinationFile $appfile
-        Publish-NavContainerApp -containerName $containerName -appFile $appFile -skipVerification -install -sync
+        #Download-File -sourceUrl $sourceUrl -destinationFile $appfile
+        #Publish-NavContainerApp -containerName $containerName -appFile $appFile -skipVerification -install -sync
 
-        $companyId = Get-NavContainerApiCompanyId -containerName $containerName -tenant "default" -credential $credential
+        #$companyId = Get-NavContainerApiCompanyId -containerName $containerName -tenant "default" -credential $credential
 
         $parameters = @{ 
             "name" = "SetupAzureAdApp"
             "value" = "$OtherServicesAdAppId,$OtherServicesAdAppKeyValue"
         }
-        Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
+        #Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
 
         if (([System.Version]$navVersion) -ge ([System.Version]"18.0.0.0")) {
             $parameters = @{ 
                 "name" = "SetupAadApplication"
                 "value" = "$ApiAdAppId,API,D365 ADMINISTRATOR:D365 FULL ACCESS"
             }
-            Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
+            #Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
         }
 
         if (([System.Version]$navVersion) -ge ([System.Version]"17.1.0.0")) {
@@ -474,7 +459,7 @@ if ($auth -eq "AAD") {
                 "name" = "SetupEMailAdApp"
                 "value" = "$OtherServicesAdAppId,$OtherServicesAdAppKeyValue,$Office365UserName"
             }
-            Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
+            #Invoke-NavContainerApi -containerName $containerName -tenant "default" -credential $credential -APIPublisher "Microsoft" -APIGroup "Setup" -APIVersion "beta" -CompanyId $companyId -Method "POST" -Query "aadApps" -body $parameters | Out-Null
     
             if ($sqlServerType -eq "SQLExpress") {
                 Invoke-ScriptInBCContainer -containerName $containerName -scriptblock {
@@ -504,8 +489,7 @@ if ($auth -eq "AAD") {
             }
         }
 
-        UnPublish-NavContainerApp -containerName $containerName -appName AzureAdAppSetup -unInstall -doNotSaveData
-    }
+        #UnPublish-NavContainerApp -containerName $containerName -appName AzureAdAppSetup -unInstall -doNotSaveData
 }
 
 if ($CreateTestUsers -eq "Yes") {
